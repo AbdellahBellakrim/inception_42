@@ -1,0 +1,72 @@
+version: '3.8'
+
+
+networks:
+  inceptionnetwork:
+    driver: bridge
+
+services:
+# ---------------------- mariadb --------------------
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    networks:
+      - inceptionnetwork
+    restart: always
+    # env_file:
+    #   - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - database-volume:/var/lib/mysql
+    # ports:
+    #   - "3306:3306"
+# ---------------------- wordpress --------------------
+  wordpress:
+    depends_on:
+      - mariadb
+    image: wordpress
+    container_name: wordpress
+    networks:
+      - inceptionnetwork
+    restart: always
+    # env_file:
+    #   - .env
+    environment:
+      - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      - WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX}
+    volumes:
+      - wordpress-volume:/var/www/html
+    ports:
+      - "8080:80"
+# ---------------------- nginx --------------------
+  # nginx:
+  #   depends_on:
+  #     - wordpress
+  #   image: nginx
+  #   container_name: nginx
+  #   networks:
+  #     - inceptionnetwork
+  #   restart: always
+  #   # env_file:
+  #   #   - .env
+  #   environment:
+  #     - SSL_PROTOCOL=TLSv1.3    
+  #   ports:
+  #     - "443:443"
+    
+
+volumes:
+  database-volume:
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: /home/abellakr/data
+  wordpress-volume:
