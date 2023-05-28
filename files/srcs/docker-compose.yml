@@ -33,8 +33,6 @@ services:
 #       - WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX}
 #     volumes:
 #       - wordpress-volume:/var/www/html
-#     # ports:
-#     #   - "8080:80"
 # ---------------------- nginx --------------------
 #   nginx:
 #     depends_on:
@@ -54,7 +52,6 @@ services:
 networks:
   inceptionnetwork:
     driver: bridge
-  
 volumes:
   database-volume:
     # driver: local
