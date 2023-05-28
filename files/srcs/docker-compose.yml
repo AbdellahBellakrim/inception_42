@@ -1,27 +1,21 @@
 version: '2.13.0'
 
-
-networks:
-  inceptionnetwork:
-    driver: bridge
-
 services:
 # ---------------------- mariadb --------------------
   mariadb:
-    build : ./requirements/mariadb/.
+    build: ./requirements/mariadb/.
+    image: mariadb
     container_name: mariadb
     networks:
       - inceptionnetwork
-    restart: always
-    env_file:
-      - .env
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - user_root_pass=${user_root_pass}
+      - data_base_name=${data_base_name}
+      - user=${user}
+      - user_password=${user_password}
     volumes:
       - database-volume:/var/lib/mysql
+    restart: always 
 # # ---------------------- wordpress --------------------
 #   wordpress:
 #     depends_on:
@@ -31,8 +25,6 @@ services:
 #     networks:
 #       - inceptionnetwork
 #     restart: always
-#     # env_file:
-#     #   - .env
 #     environment:
 #       - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
 #       - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
@@ -58,6 +50,10 @@ services:
 #       - SSL_PROTOCOL=TLSv1.3    
 #     ports:
 #       - "443:443"
+
+networks:
+  inceptionnetwork:
+    driver: bridge
   
 volumes:
   database-volume:

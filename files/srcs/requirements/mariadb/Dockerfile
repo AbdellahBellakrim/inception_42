@@ -1,7 +1,9 @@
 FROM debian:buster
 
-WORKDIR /mariadb
-
 RUN apt-get update -y && apt-get install mariadb-server -y
 
-# ENTRYPOINT ["bash", "mariadbconfig.sh"]
+COPY ./tool/mariadbconfig.sh .
+
+RUN sed -i 's/bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
+
+ENTRYPOINT ["bash", "mariadbconfig.sh"]
