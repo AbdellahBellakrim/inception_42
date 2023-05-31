@@ -1,0 +1,75 @@
+version: '2.13.0'
+
+services:
+# ---------------------- mariadb --------------------
+  mariadb:
+    build: ./requirements/mariadb/.
+    image: mariadb
+    container_name: mariadb
+    networks:
+      - inceptionnetwork
+    environment:
+      - user_root_pass=${user_root_pass}
+      - data_base_name=${data_base_name}
+      - user=${user}
+      - user_password=${user_password}
+    volumes:
+      - database-volume:/var/lib/mysql
+    restart: always 
+# # # ---------------------- wordpress --------------------
+  wordpress:
+    depends_on:
+      - mariadb
+    build: ./requirements/wordpress/.
+    image: wordpress
+    container_name: wordpress
+    networks:
+      - inceptionnetwork
+    environment:
+      - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      - WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX}
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - TITLE=${TITLE}
+      - ADMIN_USER=${ADMIN_USER}
+      - ADMIN_PASS=${ADMIN_PASS}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - WORDPRESS_USER=${WORDPRESS_USER}
+      - WORDPRESS_USER_PASSWORD=${WORDPRESS_USER_PASSWORD}
+      - WORDPRESS_USER_EMAIL=${WORDPRESS_USER_EMAIL}
+    volumes:
+      - wordpress-volume:/var/www/html
+    restart: always
+# ---------------------- nginx --------------------
+  nginx:
+    depends_on:
+      - wordpress
+    build: ./requirements/nginx/.
+    image: nginx
+    container_name: nginx
+    networks:
+      - inceptionnetwork
+    restart: always
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress-volume:/var/www/html
+
+networks:
+  inceptionnetwork:
+    driver: bridge
+volumes:
+  database-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/abellakr/data/database
+  wordpress-volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/abellakr/data/wordpress
