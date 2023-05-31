@@ -3,8 +3,6 @@
 mkdir -p /run/php
 sed -i 's/^listen = \/run\/php\/php7.3-fpm.sock/listen = wordpress:9000/' /etc/php/7.3/fpm/pool.d/www.conf
 
-cd /var/www/html && rm *
-
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 
 chmod +x wp-cli.phar
