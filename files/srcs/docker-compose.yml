@@ -25,7 +25,6 @@ services:
     container_name: wordpress
     networks:
       - inceptionnetwork
-    restart: always
     environment:
       - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
       - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
@@ -42,6 +41,7 @@ services:
       - WORDPRESS_USER_EMAIL=${WORDPRESS_USER_EMAIL}
     volumes:
       - wordpress-volume:/var/www/html
+    restart: always
 # ---------------------- nginx --------------------
   nginx:
     depends_on:
@@ -62,14 +62,14 @@ networks:
     driver: bridge
 volumes:
   database-volume:
-    # driver: local
-    # driver_opts:
-    #   type: none
-    #   o: bind
-    #   device: /home/abellakr/data
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/abellakr/data/database
   wordpress-volume:
-    # driver: local
-    # driver_opts:
-    #   type: none
-    #   o: bind
-    #   device: /home/abellakr/data
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/abellakr/data/wordpress

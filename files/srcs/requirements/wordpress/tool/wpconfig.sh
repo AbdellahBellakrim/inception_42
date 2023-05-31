@@ -9,7 +9,9 @@ chmod +x wp-cli.phar
 
 mv wp-cli.phar /usr/local/bin/wp-cli
 
-wp-cli core download --allow-root
+wp-cli core download --allow-root --path=/var/www/html
+
+cd /var/www/html
 
 mv wp-config-sample.php wp-config.php
 
