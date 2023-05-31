@@ -3,7 +3,7 @@
 all : up
 
 up:
-	cd ./srcs/ && docker compose up --build #-d
+	cd ./srcs/ && docker compose up --build -d
 
 down:
 	cd ./srcs/ && docker compose down

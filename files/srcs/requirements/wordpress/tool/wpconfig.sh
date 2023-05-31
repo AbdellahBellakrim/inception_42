@@ -1,5 +1,7 @@
 #!/bin/bash
-sed -i 's/^listen = \/run\/php\/php7.3-fpm.sock/listen = 127.0.0.1:9000/' /etc/php/7.3/fpm/pool.d/www.conf
+
+mkdir -p /run/php
+sed -i 's/^listen = \/run\/php\/php7.3-fpm.sock/listen = wordpress:9000/' /etc/php/7.3/fpm/pool.d/www.conf
 
 cd /var/www/html && rm *
 
@@ -18,12 +20,9 @@ wp-cli  config set --add DB_USER $WORDPRESS_DB_USER --allow-root
 wp-cli  config set --add DB_PASSWORD $WORDPRESS_DB_PASSWORD --allow-root
 wp-cli  config set --add DB_HOST $WORDPRESS_DB_HOST --allow-root
 
-# wp-cli core install --allow-root
 wp-cli core install --url=$DOMAIN_NAME --title=$TITLE --admin_user=$ADMIN_USER --admin_password=$ADMIN_PASS --admin_email=$ADMIN_EMAIL --allow-root
 
 wp-cli user create $WORDPRESS_USER $WORDPRESS_USER_EMAIL --role=author --user_pass=$WORDPRESS_USER_PASSWORD --allow-root
 
 
-# /usr/sbin/php-fpm7.3 -F
-
-tail -f
+exec /usr/sbin/php-fpm7.3 -F

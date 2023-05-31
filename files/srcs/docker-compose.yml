@@ -52,8 +52,6 @@ services:
     networks:
       - inceptionnetwork
     restart: always
-    # env_file:
-    #   - .env
     ports:
       - "443:443"
     volumes:
