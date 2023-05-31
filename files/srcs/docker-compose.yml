@@ -16,38 +16,48 @@ services:
     volumes:
       - database-volume:/var/lib/mysql
     restart: always 
-# # ---------------------- wordpress --------------------
-#   wordpress:
-#     depends_on:
-#       - mariadb
-#     image: wordpress
-#     container_name: wordpress
-#     networks:
-#       - inceptionnetwork
-#     restart: always
-#     environment:
-#       - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
-#       - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
-#       - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
-#       - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
-#       - WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX}
-#     volumes:
-#       - wordpress-volume:/var/www/html
+# # # ---------------------- wordpress --------------------
+  wordpress:
+    depends_on:
+      - mariadb
+    build: ./requirements/wordpress/.
+    image: wordpress
+    container_name: wordpress
+    networks:
+      - inceptionnetwork
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      - WORDPRESS_TABLE_PREFIX=${WORDPRESS_TABLE_PREFIX}
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - TITLE=${TITLE}
+      - ADMIN_USER=${ADMIN_USER}
+      - ADMIN_PASS=${ADMIN_PASS}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - WORDPRESS_USER=${WORDPRESS_USER}
+      - WORDPRESS_USER_PASSWORD=${WORDPRESS_USER_PASSWORD}
+      - WORDPRESS_USER_EMAIL=${WORDPRESS_USER_EMAIL}
+    volumes:
+      - wordpress-volume:/var/www/html
 # ---------------------- nginx --------------------
-#   nginx:
-#     depends_on:
-#       - wordpress
-#     image: nginx
-#     container_name: nginx
-#     networks:
-#       - inceptionnetwork
-#     restart: always
-#     # env_file:
-#     #   - .env
-#     environment:
-#       - SSL_PROTOCOL=TLSv1.3    
-#     ports:
-#       - "443:443"
+  nginx:
+    depends_on:
+      - wordpress
+    build: ./requirements/nginx/.
+    image: nginx
+    container_name: nginx
+    networks:
+      - inceptionnetwork
+    restart: always
+    # env_file:
+    #   - .env
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress-volume:/var/www/html
 
 networks:
   inceptionnetwork:
@@ -59,4 +69,9 @@ volumes:
     #   type: none
     #   o: bind
     #   device: /home/abellakr/data
-  # wordpress-volume:
+  wordpress-volume:
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: /home/abellakr/data

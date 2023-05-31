@@ -2,11 +2,14 @@ FROM debian:buster
 
 RUN apt update -y && apt upgrade -y
 
-RUN apt install -y nginx
+RUN apt-get install -y nginx && apt-get install -y openssl
 
-COPY ./index.html /usr/share/nginx/html/index.html
+COPY ./tools/sslcertificate.sh .
+
+RUN bash sslcertificate.sh
+
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 80
+EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]
