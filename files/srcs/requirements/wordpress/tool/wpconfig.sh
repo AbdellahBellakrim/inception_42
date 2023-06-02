@@ -31,4 +31,6 @@ wp-cli  config set --add WP_REDIS_PORT 6379 --allow-root
 wp-cli plugin install redis-cache --activate --allow-root
 wp-cli redis enable --allow-root
 
+chown -R www-data:www-data /var/www/html
+
 exec /usr/sbin/php-fpm7.3 -F
