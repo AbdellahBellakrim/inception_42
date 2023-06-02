@@ -56,7 +56,21 @@ services:
       - "443:443"
     volumes:
       - wordpress-volume:/var/www/html
-
+# ---------------------- redis --------------------
+  redis:
+    depends_on: 
+      - nginx
+    build: ./requirements/bonus/redis/.
+    image: redis
+    container_name: redis
+    networks:
+    - inceptionnetwork
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - wordpress-volume:/var/www/html
+# ---------------------- networks and volumes --------------------
 networks:
   inceptionnetwork:
     driver: bridge

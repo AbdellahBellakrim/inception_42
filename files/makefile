@@ -25,6 +25,7 @@ harddown:
 	@docker rmi mariadb || true
 	@docker rmi wordpress || true
 	@docker rmi nginx || true
+	@docker rmi redis || true
 	@echo "\n$(RED)------------------- all inception data has been cleaned succefully --------------------\n"
 
 clean: harddown
