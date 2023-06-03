@@ -7,11 +7,11 @@ adduser --gecos "" --disabled-password $FTP_USER
 # set password for ftp user
 echo "$FTP_USER:$FTP_USER_PASSWORD" | chpasswd
 # Create the ftp folder
-mkdir -p /home/$FTP_USER/ftp/files
+mkdir -p /home/ftp_files
 # set its ownership
-chown -R $FTP_USER:$FTP_USER /home/$FTP_USER/ftp/files
+chown -R $FTP_USER:$FTP_USER /home/ftp_files
 # Remove write permissions
-chmod a-w /home/$FTP_USER/ftp/files
+chmod a-w /home/ftp_files
 
 # disables anonymous login to the FTP server
 echo "anonymous_enable=NO" >> /etc/vsftpd.conf;
@@ -31,8 +31,8 @@ echo "user_sub_token=$FTP_USER" >> /etc/vsftpd.conf
 # enables local user login
 echo "local_enable=YES" >> /etc/vsftpd.conf
 
-# line sets the FTP root directory for the local user to /home/$FTP_USER/ftp
-echo "local_root=/home/$FTP_USER/ftp" >> /etc/vsftpd.conf
+# line sets the FTP root directory for the local user to /home/ftp_files
+echo "local_root=/home/ftp_files" >> /etc/vsftpd.conf
 
 # sets the minimum port for passive mode data connections
 echo "pasv_min_port=40000" >> /etc/vsftpd.conf
