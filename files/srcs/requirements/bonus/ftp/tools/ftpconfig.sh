@@ -7,11 +7,11 @@ adduser --gecos "" --disabled-password $FTP_USER
 # set password for ftp user
 echo "$FTP_USER:$FTP_USER_PASSWORD" | chpasswd
 # Create the ftp folder
-mkdir -p /home/$FTP_USER/ftp
+mkdir -p /home/$FTP_USER/ftp/files
 # set its ownership
-chown -R $FTP_USER:$FTP_USER /home/$FTP_USER/ftp
+chown -R $FTP_USER:$FTP_USER /home/$FTP_USER/ftp/files
 # Remove write permissions
-chmod a-w /home/$FTP_USER/ftp 
+chmod a-w /home/$FTP_USER/ftp/files
 
 # disables anonymous login to the FTP server
 echo "anonymous_enable=NO" >> /etc/vsftpd.conf;

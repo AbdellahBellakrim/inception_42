@@ -19,7 +19,8 @@ down:
 	@cd ./srcs/ && docker compose down
 	@echo "\n$(RED)------------------- inception containers are down successfully --------------------\n"
 
-harddown: down
+harddown:
+	@chmod a+w /Users/abellakr/data/wordpress || true
 	@rm -rf /Users/abellakr/data
 	@cd ./srcs/ && docker compose down -v 
 	@docker rmi mariadb || true

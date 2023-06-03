@@ -73,24 +73,36 @@ services:
     volumes:
       - wordpress-volume:/var/www/html
 # ---------------------- ftp --------------------
-  ftp:
-    depends_on:
+  # ftp:
+  #   depends_on:
+  #     - wordpress
+  #   build: ./requirements/bonus/ftp/.
+  #   image: ftp
+  #   container_name: ftp
+  #   networks:
+  #    - inceptionnetwork
+  #   environment:
+  #     - FTP_USER=${FTP_USER}
+  #     - FTP_USER_PASSWORD=${FTP_USER_PASSWORD}
+  #   restart: always
+  #   ports:
+  #     - "20:20"
+  #     - "21:21"
+  #     - "40000-40005:40000-40005"
+  #   volumes:
+  #     - wordpress-volume:/home/${FTP_USER}/ftp
+# ---------------------- adminer --------------------
+  adminer:
+    depends_on: 
       - wordpress
-    build: ./requirements/bonus/ftp/.
-    image: ftp
-    container_name: ftp
+    build: ./requirements/bonus/adminer/.
+    image: adminer
+    container_name: adminer
     networks:
-     - inceptionnetwork
-    environment:
-      - FTP_USER=${FTP_USER}
-      - FTP_USER_PASSWORD=${FTP_USER_PASSWORD}
+      - inceptionnetwork
     restart: always
     ports:
-      - "20:20"
-      - "21:21"
-      - "40000-40005:40000-40005"
-    volumes:
-      - wordpress-volume:/home/${FTP_USER}/ftp
+      - "881:881"
 # ---------------------- networks and volumes --------------------
 networks:
   inceptionnetwork:
