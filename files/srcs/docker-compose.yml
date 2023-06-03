@@ -39,6 +39,8 @@ services:
       - WORDPRESS_USER=${WORDPRESS_USER}
       - WORDPRESS_USER_PASSWORD=${WORDPRESS_USER_PASSWORD}
       - WORDPRESS_USER_EMAIL=${WORDPRESS_USER_EMAIL}
+      - WP_REDIS_HOST=${WP_REDIS_HOST}
+      - WP_REDIS_PORT=${WP_REDIS_PORT}
     volumes:
       - wordpress-volume:/var/www/html
     restart: always
@@ -64,12 +66,31 @@ services:
     image: redis
     container_name: redis
     networks:
-    - inceptionnetwork
+      - inceptionnetwork
     restart: always
     ports:
       - "6379:6379"
     volumes:
       - wordpress-volume:/var/www/html
+# ---------------------- ftp --------------------
+  ftp:
+    depends_on:
+      - wordpress
+    build: ./requirements/bonus/ftp/.
+    image: ftp
+    container_name: ftp
+    networks:
+     - inceptionnetwork
+    environment:
+      - FTP_USER=${FTP_USER}
+      - FTP_USER_PASSWORD=${FTP_USER_PASSWORD}
+    restart: always
+    ports:
+      - "20:20"
+      - "21:21"
+      - "40000-40005:40000-40005"
+    volumes:
+      - wordpress-volume:/home/${FTP_USER}/ftp
 # ---------------------- networks and volumes --------------------
 networks:
   inceptionnetwork:

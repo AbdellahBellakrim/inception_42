@@ -19,13 +19,14 @@ down:
 	@cd ./srcs/ && docker compose down
 	@echo "\n$(RED)------------------- inception containers are down successfully --------------------\n"
 
-harddown:
+harddown: down
 	@rm -rf /Users/abellakr/data
 	@cd ./srcs/ && docker compose down -v 
 	@docker rmi mariadb || true
 	@docker rmi wordpress || true
 	@docker rmi nginx || true
 	@docker rmi redis || true
+	@docker rmi ftp || true
 	@echo "\n$(RED)------------------- all inception data has been cleaned succefully --------------------\n"
 
 clean: harddown

@@ -6,4 +6,6 @@ RUN chmod +w /etc/redis/redis.conf
 
 RUN echo "maxmemory 256mb">> /etc/redis/redis.conf && echo "maxmemory-policy allkeys-lfu" >> /etc/redis/redis.conf
 
+EXPOSE 6379
+
 CMD ["redis-server", "--protected-mode", "no"]
