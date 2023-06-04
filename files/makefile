@@ -36,3 +36,4 @@ clean: harddown
 	@echo "\n$(RED)------------------- cleaned --------------------\n"
 
 
+re: harddown up
