@@ -39,6 +39,8 @@ services:
       - WORDPRESS_USER=${WORDPRESS_USER}
       - WORDPRESS_USER_PASSWORD=${WORDPRESS_USER_PASSWORD}
       - WORDPRESS_USER_EMAIL=${WORDPRESS_USER_EMAIL}
+      - WP_REDIS_HOST=${WP_REDIS_HOST}
+      - WP_REDIS_PORT=${WP_REDIS_PORT}
     volumes:
       - wordpress-volume:/var/www/html
     restart: always
@@ -56,7 +58,77 @@ services:
       - "443:443"
     volumes:
       - wordpress-volume:/var/www/html
-
+# ---------------------- redis --------------------
+  redis:
+    depends_on: 
+      - nginx
+    build: ./requirements/bonus/redis/.
+    image: redis
+    container_name: redis
+    networks:
+      - inceptionnetwork
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - wordpress-volume:/var/www/html
+# ---------------------- ftp --------------------
+  ftp:
+    depends_on:
+      - nginx
+    build: ./requirements/bonus/ftp/.
+    image: ftp
+    container_name: ftp
+    networks:
+     - inceptionnetwork
+    environment:
+      - FTP_USER=${FTP_USER}
+      - FTP_USER_PASSWORD=${FTP_USER_PASSWORD}
+    restart: always
+    ports:
+      - "20:20"
+      - "21:21"
+      - "40000-40005:40000-40005"
+    volumes:
+      - wordpress-volume:/home/ftp/files
+# ---------------------- adminer --------------------
+  adminer:
+    depends_on: 
+      - mariadb
+    build: ./requirements/bonus/adminer/.
+    image: adminer
+    container_name: adminer
+    networks:
+      - inceptionnetwork
+    restart: always
+    ports:
+      - "881:881"
+# ---------------------- static_website --------------------
+  static_website:
+    build: ./requirements/bonus/static_website/.
+    image: static_website
+    container_name: static_website
+    networks:
+     - inceptionnetwork
+    restart: always
+    ports:
+     - "5400:5400"
+# ----------------------  cadvisor --------------------
+  cadvisor:
+    build: ./requirements/bonus/cadvisor/.
+    image: cadvisor
+    container_name: cadvisor
+    networks:
+     - inceptionnetwork
+    restart: always
+    ports:
+     - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+# ---------------------- networks and volumes --------------------
 networks:
   inceptionnetwork:
     driver: bridge

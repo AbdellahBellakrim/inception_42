@@ -24,5 +24,13 @@ wp-cli core install --url=$DOMAIN_NAME --title=$TITLE --admin_user=$ADMIN_USER -
 
 wp-cli user create $WORDPRESS_USER $WORDPRESS_USER_EMAIL --role=author --user_pass=$WORDPRESS_USER_PASSWORD --allow-root
 
+wp-cli  config set --add WP_CACHE true --allow-root
+wp-cli  config set --add WP_REDIS_HOST $WP_REDIS_HOST --allow-root
+wp-cli  config set --add WP_REDIS_PORT $WP_REDIS_PORT --allow-root
+
+wp-cli plugin install redis-cache --activate --allow-root
+wp-cli redis enable --allow-root
+
+chown -R www-data:www-data /var/www/html
 
 exec /usr/sbin/php-fpm7.3 -F
