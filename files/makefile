@@ -20,18 +20,19 @@ down:
 	@echo "\n$(RED)------------------- inception containers are down successfully --------------------\n"
 
 harddown:
+	@cd ./srcs/ && docker compose down -v 
 	@chmod a+w /Users/abellakr/data/wordpress || true
 	@rm -rf /Users/abellakr/data
-	@cd ./srcs/ && docker compose down -v 
 	@docker rmi mariadb || true
 	@docker rmi wordpress || true
 	@docker rmi nginx || true
 	@docker rmi redis || true
 	@docker rmi ftp || true
+	@docker rmi static_website || true
 	@echo "\n$(RED)------------------- all inception data has been cleaned succefully --------------------\n"
 
 clean: harddown
-	@yes | docker system prune -a
+	@yes | docker system prune -af
 	@echo "\n$(RED)------------------- cleaned --------------------\n"
 
 

@@ -94,7 +94,7 @@ services:
 # ---------------------- adminer --------------------
   adminer:
     depends_on: 
-      - wordpress
+      - mariadb
     build: ./requirements/bonus/adminer/.
     image: adminer
     container_name: adminer
@@ -103,6 +103,16 @@ services:
     restart: always
     ports:
       - "881:881"
+# ---------------------- static_website --------------------
+  static_website:
+    build: ./requirements/bonus/static_website/.
+    image: static_website
+    container_name: static_website
+    networks:
+     - inceptionnetwork
+    restart: always
+    ports:
+     - "5400:5400"
 # ---------------------- networks and volumes --------------------
 networks:
   inceptionnetwork:
