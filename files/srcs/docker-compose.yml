@@ -1,4 +1,4 @@
-version: '2.13.0'
+version: '2.2'
 
 services:
 # ---------------------- mariadb --------------------
@@ -138,10 +138,10 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /Users/abellakr/data/database
+      device: /home/abellakr/data/database
   wordpress-volume:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /Users/abellakr/data/wordpress
+      device: /home/abellakr/data/wordpress
