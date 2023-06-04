@@ -12,6 +12,7 @@ up:
 	@mkdir -p /home/abellakr/data/database 
 	@mkdir -p /home/abellakr/data/wordpress 
 	@cd ./srcs/ && docker-compose up --build -d
+	@sudo chmod 777 -R /home/abellakr/data/wordpress
 	@echo "\n$(GREEN)------------------- done ! wait 20 s --------------------\n"
 
 down:
