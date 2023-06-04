@@ -29,6 +29,7 @@ harddown:
 	@docker rmi redis || true
 	@docker rmi ftp || true
 	@docker rmi static_website || true
+	@docker rmi cadvisor || true
 	@echo "\n$(RED)------------------- all inception data has been cleaned succefully --------------------\n"
 
 clean: harddown
