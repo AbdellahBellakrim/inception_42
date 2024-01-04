@@ -45,6 +45,9 @@ For detailed instructions and examples, please refer to the project document.
 The bonus part is optional. It offers additional tasks to enhance your project. Some of the suggested bonus tasks include:
 
 - Setting up Redis cache for the WordPress website.
+
+## Environment Variables
+For the sake of running the project, a .env file has been pushed to this repository. However, please note that this is just an example and .env files should not typically be pushed to public repositories for security reasons.
 - Creating an FTP server container for the WordPress website.
 - Developing a static website in a language other than PHP.
 - Including Adminer for database management.
