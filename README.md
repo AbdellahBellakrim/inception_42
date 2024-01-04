@@ -49,3 +49,6 @@ The bonus part is optional. It offers additional tasks to enhance your project. 
 - Developing a static website in a language other than PHP.
 - Including Adminer for database management.
 - Adding a service of your choice with a justification(cadvisor).
+  
+## Environment Variables
+For the sake of running the project, a .env file has been pushed to this repository. However, please note that this is just an example and .env files should not typically be pushed to public repositories for security reasons.
